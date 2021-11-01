@@ -1,10 +1,11 @@
 package com.greedymonkeys.category.http;
 
-import java.util.List;
-
 import com.greedymonkeys.category.exceptions.InvalidCategoryException;
 import com.greedymonkeys.category.model.Category;
+import com.greedymonkeys.category.model.CategoryDTO;
 import com.greedymonkeys.category.service.CategoryService;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import lombok.extern.log4j.Log4j2;
+import java.util.List;
 
 @Log4j2
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    @Autowired private CategoryService categoryService;
 
     @GetMapping
     public List<Category> findAll() {
@@ -34,12 +34,17 @@ public class CategoryController {
 
     @GetMapping("{id}")
     public Category findById(@PathVariable Long id) {
-        return categoryService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+        return categoryService
+                .findById(id)
+                .orElseThrow(
+                        () ->
+                                new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND, "Category not found"));
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
+    public Category create(@RequestBody CategoryDTO categoryDTO) {
+        var category = Category.fromDTO(categoryDTO);
         try {
             return categoryService.create(category);
         } catch (InvalidCategoryException e) {
@@ -52,5 +57,4 @@ public class CategoryController {
     public void delete(@PathVariable Long id) {
         categoryService.delete(id);
     }
-
 }

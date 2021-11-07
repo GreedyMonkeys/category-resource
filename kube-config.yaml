@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: category-resource-deployment
+  labels:
+    app: category-resource
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: category-resource
+  template:
+    metadata:
+      labels:
+        app: category-resource
+    spec:
+      containers:
+      - name: category-resource
+        image: skullgnammer/category-resource:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "100M"
+          limits:
+            cpu: "800m"
+            memory: "400M"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: category-resource-service
+spec:
+  selector:
+    app: category-resource
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

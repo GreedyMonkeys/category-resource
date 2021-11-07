@@ -10,7 +10,7 @@
 	<groupId>com.greedymonkeys</groupId>
 	<artifactId>category</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>category</name>
+	<name>category-resource</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>

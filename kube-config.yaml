@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: category-resource
-        image: skullgnammer/category-resource:latest
+        image: greedymonkeys/category-resource:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
